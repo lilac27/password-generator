@@ -74,56 +74,43 @@ if (!upperCases && !numbers && !lowerCases && !includeSpecialCharacters){
 
 };
 
- // Checks to make sure user selected ok for all and uses empty minimums from above
+// Create an array to store characters
+var allPossibleCharacters = [];
 
- if (numbers) {
-  minimumNumbers = functionArray.getNumbers();
-  minimumCount++;
+// Initialize the random password string
+var randomPasswordGenerated = "";
+
+// Populate the array based on user choices
+if (numbers) {
+  allPossibleCharacters.push(...functionArray.getNumbers());
 }
 
 if (lowerCases) {
-  minimumLowerCases = functionArray.getLowerCases();
-  minimumCount++;
+  allPossibleCharacters.push(...functionArray.getLowerCases());
 }
 
 if (upperCases) {
-  minimumUpperCases = functionArray.getUpperCases();
-  minimumCount++;
+  allPossibleCharacters.push(...functionArray.getUpperCases());
 }
 
 if (includeSpecialCharacters) {
-  minimumSpecialCharacters = functionArray.getSpecialCharacters();
-  minimumCount++;
+  allPossibleCharacters.push(...functionArray.getSpecialCharacters());
 }
 
- // empty string variable for the for loop below
- var randomPasswordGenerated = "";
-
-  // Loop to generate random characters
-  for (let i = 0; i < passwordLength - minimumCount; i++) {
-    var validFunctions = Object.keys(functionArray).filter(functionKey => {
-      return (numbers && functionKey === 'getNumbers') ||
-             (lowerCases && functionKey === 'getLowerCases') ||
-             (upperCases && functionKey === 'getUpperCases') ||
-             (specialCharacters && functionKey === 'getSpecialCharacters');
-    });
-
-    var randomFunctionKey = validFunctions[Math.floor(Math.random() * validFunctions.length)];
-    randomPasswordGenerated += functionArray[randomFunctionKey]();
-  }
+// Loop to generate random characters
+for (let i = 0; i < passwordLength - minimumCount; i++) {
+  var randomCharacterIndex = Math.floor(Math.random() * allPossibleCharacters.length);
+  randomPasswordGenerated += allPossibleCharacters[randomCharacterIndex];
+}
 
 
 
 
- // to make sure characters are added to the password
- randomPasswordGenerated += minimumNumbers;
- randomPasswordGenerated += minimumLowerCases;
- randomPasswordGenerated += minimumUpperCases;
- randomPasswordGenerated += minimumSpecialCharacters;
 
 
  console.log("Generated password:", randomPasswordGenerated);
  return randomPasswordGenerated;
+
 
 };
 };
