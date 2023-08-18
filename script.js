@@ -18,7 +18,12 @@ function generatePassword () {
 // 1. prompt the user for the password criteria
 // a. password length between 8 and 128
   var passwordLength = Number(prompt("Please enter the number of characters to be used for your password."));
+  console.log("Password length:", passwordLength);
 
+  // 2. Validate the input
+  if (isNaN(passwordLength) || passwordLength < 8 || passwordLength > 128) {
+    passwordLength = Number(prompt("Length must be between 8 and 128 characters. Please enter your password length."));
+  }
 
 // b. lowercase , uppercase, numbers, special characters
 
@@ -27,19 +32,14 @@ function generatePassword () {
   var upperCases = confirm("Would you like upper case letters in your password?");
   var numbers = confirm("Would you like numbers in your password?");
 
-// 2. validate the input 
+  console.log("specialCharacters:", specialCharacters);
+  console.log("lowerCases:", lowerCases);
+  console.log("upperCases:", upperCases);
+  console.log("numbers:", numbers);
 
-if (isNaN(length) || length<8 || length>128) length = Number(prompt("Length must be between 8 and 128 characters. Please enter your password length."));
-
-
-if (!upperCases && !numbers && !lowerCases && !special){
+if (!upperCases && !numbers && !lowerCases && !specialCharacters){
   alert("Select at least one character type.");
   
-  specialCharacters = confirm("Would you like specia characters in your password?");
-  lowerCases = confirm("Would you like lower case letters in your password?");
-  upperCases = confirm("Would you like upper case letters in your password?");
-  numbers = confirm("Would you like numbers in your password?");
-
 // 3. generate password 
  // this is a minimum count for numbers, lowerCases, upperCases & specialCharacters
  var minimumCount = 0;
@@ -75,40 +75,41 @@ if (!upperCases && !numbers && !lowerCases && !special){
 
  // Checks to make sure user selected ok for all and uses empty minimums from above
 
- if (numbers === true) {
-   minimumNumbers = functionArray.getNumbers();
-   minimumCount++;
+ if (numbers) {
+  minimumNumbers = functionArray.getNumbers();
+  minimumCount++;
+}
 
- }
+if (lowerCases) {
+  minimumLowerCases = functionArray.getLowerCases();
+  minimumCount++;
+}
 
- if (lowerCases === true) {
-   minimumLowerCases = functionArray.getLowerCases();
-   minimumCount++;
+if (upperCases) {
+  minimumUpperCases = functionArray.getUpperCases();
+  minimumCount++;
+}
 
- }
-
- if (upperCases === true) {
-   minimumUpperCases = functionArray.getUpperCases();
-   minimumCount++;
-
- }
-
- if (special === true) {
-   minimumSpecialCharacters = functionArray.getSpecialCharacters();
-   minimumCount++;
-
- }
+if (specialCharacters) {
+  minimumSpecialCharacters = functionArray.getSpecialCharacters();
+  minimumCount++;
+}
 
  // empty string variable for the for loop below
  var randomPasswordGenerated = "";
 
- // loop getting random characters
- for (let i = 0; i < (parseInt(passwordLength) - minimumCount); i++) {
-   var randomNumberPicked = Math.floor(Math.random() * 4);
+// loop to generate random characters
+for (let i = 0; i < passwordLength - minimumCount; i++) {
+  var randomNumberPicked = Math.floor(Math.random() * 4); // This should be adjusted based on the number of generator functions
+  var randomFunctionKey = Object.keys(functionArray)[randomNumberPicked];
+  console.log("randomNumberPicked:", randomNumberPicked);
+  console.log("randomFunctionKey:", randomFunctionKey);
+  randomPasswordGenerated += functionArray[randomFunctionKey]();
+}
 
-   randomPasswordGenerated += randomNumberPicked;
+console.log("randomPasswordGenerated:", randomPasswordGenerated);
 
- }
+
 
  // to make sure characters are added to the password
  randomPasswordGenerated += minimumNumbers;
