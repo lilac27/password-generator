@@ -27,22 +27,23 @@ function generatePassword () {
 
 // b. lowercase , uppercase, numbers, special characters
 
-  var specialCharacters = confirm("Would you like special characters in your password?");
-  var lowerCases = confirm("Would you like lower case letters in your password?");
-  var upperCases = confirm("Would you like upper case letters in your password?");
-  var numbers = confirm("Would you like numbers in your password?");
+  var includeSpecialCharacters = confirm("Would you like special characters in your password?");
+  console.log("includeSpecialCharacters:", includeSpecialCharacters);
 
-  console.log("specialCharacters:", specialCharacters);
+  var lowerCases = confirm("Would you like lower case letters in your password?");
   console.log("lowerCases:", lowerCases);
+
+  var upperCases = confirm("Would you like upper case letters in your password?");
   console.log("upperCases:", upperCases);
+
+  var numbers = confirm("Would you like numbers in your password?");
   console.log("numbers:", numbers);
 
-if (!upperCases && !numbers && !lowerCases && !specialCharacters){
+if (!upperCases && !numbers && !lowerCases && !includeSpecialCharacters){
   alert("Select at least one character type.");
-  
 // 3. generate password 
  // this is a minimum count for numbers, lowerCases, upperCases & specialCharacters
- var minimumCount = (numbers ? 1 : 0) + (lowerCases ? 1 : 0) + (upperCases ? 1 : 0) + (specialCharacters ? 1 : 0);
+ var minimumCount = (numbers ? 1 : 0) + (lowerCases ? 1 : 0) + (upperCases ? 1 : 0) + (includeSpecialCharacters ? 1 : 0);
 
 
  // Empty minimums for numbers, lowerCases, upperCases & specialCharacters
@@ -90,7 +91,7 @@ if (upperCases) {
   minimumCount++;
 }
 
-if (specialCharacters) {
+if (includeSpecialCharacters) {
   minimumSpecialCharacters = functionArray.getSpecialCharacters();
   minimumCount++;
 }
