@@ -42,7 +42,7 @@ if (!upperCases && !numbers && !lowerCases && !specialCharacters){
   
 // 3. generate password 
  // this is a minimum count for numbers, lowerCases, upperCases & specialCharacters
- var minimumCount = 0;
+ var minimumCount = (numbers ? 1 : 0) + (lowerCases ? 1 : 0) + (upperCases ? 1 : 0) + (specialCharacters ? 1 : 0);
 
 
  // Empty minimums for numbers, lowerCases, upperCases & specialCharacters
@@ -98,16 +98,19 @@ if (specialCharacters) {
  // empty string variable for the for loop below
  var randomPasswordGenerated = "";
 
-// loop to generate random characters
-for (let i = 0; i < passwordLength - minimumCount; i++) {
-  var randomNumberPicked = Math.floor(Math.random() * 4); // This should be adjusted based on the number of generator functions
-  var randomFunctionKey = Object.keys(functionArray)[randomNumberPicked];
-  console.log("randomNumberPicked:", randomNumberPicked);
-  console.log("randomFunctionKey:", randomFunctionKey);
-  randomPasswordGenerated += functionArray[randomFunctionKey]();
-}
+  // Loop to generate random characters
+  for (let i = 0; i < passwordLength - minimumCount; i++) {
+    var validFunctions = Object.keys(functionArray).filter(functionKey => {
+      return (numbers && functionKey === 'getNumbers') ||
+             (lowerCases && functionKey === 'getLowerCases') ||
+             (upperCases && functionKey === 'getUpperCases') ||
+             (specialCharacters && functionKey === 'getSpecialCharacters');
+    });
 
-console.log("randomPasswordGenerated:", randomPasswordGenerated);
+    var randomFunctionKey = validFunctions[Math.floor(Math.random() * validFunctions.length)];
+    randomPasswordGenerated += functionArray[randomFunctionKey]();
+  }
+
 
 
 
@@ -118,7 +121,8 @@ console.log("randomPasswordGenerated:", randomPasswordGenerated);
  randomPasswordGenerated += minimumSpecialCharacters;
 
 
+ console.log("Generated password:", randomPasswordGenerated);
  return randomPasswordGenerated;
 
-}
-}
+};
+};
