@@ -41,6 +41,7 @@ function generatePassword () {
 
 if (!upperCases && !numbers && !lowerCases && !includeSpecialCharacters){
   alert("Select at least one character type.");
+}
 // 3. generate password 
  // this is a minimum count for numbers, lowerCases, upperCases & specialCharacters
  var minimumCount = (numbers ? 1 : 0) + (lowerCases ? 1 : 0) + (upperCases ? 1 : 0) + (includeSpecialCharacters ? 1 : 0);
@@ -113,4 +114,4 @@ for (let i = 0; i < passwordLength - minimumCount; i++) {
 
 
 };
-};
+
